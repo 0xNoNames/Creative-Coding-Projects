@@ -1,11 +1,14 @@
 class Planet {
-    constructor(radius, distance, npoints, orbitSpeed, color) {
+    constructor(radius, distance, npoints, orbitSpeed, color, x = cos(this.orbitAngle) * this.distance, y = sin(this.orbitAngle) * this.distance, orbitAngle = random(TWO_PI)) {
         this.radius = radius;
-        this.angle = random(TWO_PI);
+        this.orbitAngle = orbitAngle;
         this.distance = distance;
         this.npoints = npoints;
         this.orbitSpeed = orbitSpeed;
+        // this.rotationSpeed = rotationSpeed;
         this.color = color;
+        this.x = x;
+        this.y = y;
     }
 
     polygon(x, y, radius, npoints) {
@@ -22,18 +25,19 @@ class Planet {
     show() {
         push();
         fill(this.color);
-        rotate(this.angle);
-        translate(this.distance, 0);
-        this.polygon(0, 0, this.radius, this.npoints);
+        this.x = cos(this.orbitAngle) * this.distance;
+        this.y = sin(this.orbitAngle) * this.distance;
+        // translate(this.x, this.y);
+        // rotate(this.orbitSpeed);
+        this.polygon(this.x, this.y, this.radius, this.npoints);
         pop();
     }
 
     orbit() {
-        this.angle += this.orbitSpeed;
+        this.orbitAngle += this.orbitSpeed;
     }
 
-    // rotation() {
-    //     push();
-    //     pop();
+    // rotate() {
+    //     this.rotateAngle += this.rotationSpeed;
     // }
 }
