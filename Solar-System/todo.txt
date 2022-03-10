@@ -1,0 +1,5 @@
+- Orbite selon la mass ou calculer exactement l'orbite
+- Soleil en polygon
+- Sliders pour gérer taille de la Terre / écoulement du temps
+- Rajouter les satellites
+- Raycasting depuis le soleil
