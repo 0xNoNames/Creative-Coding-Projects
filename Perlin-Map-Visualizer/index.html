@@ -4,30 +4,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>Perlin Map Visualizer</title>
-  <style>
-    html,
-    body {
-      padding: 0;
-      margin: 0;
-      width: 100vw;
-      height: 100vh;
-      box-sizing: border-box;
-      background-color: rgb(46, 45, 45);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    canvas {
-      display: block;
-    }
-  </style>
 </head>
 
 <body>
+  <div id="sliders">
+    <div class="slideContainer">
+      <label for="pixelSizeSlider" id="pixelSizeLabel"></label>
+      <input type="range" min="1" max="50" value="5" class="slider" id="pixelSizeSlider">
+    </div>
+  </div>
+
   <main>
   </main>
+
+  <img src="https://media3.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif"
+    style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -90%); height: 250px;">
+
   <script src="lib/p5.js"></script>
   <script src="sketch.js"></script>
 </body>
