@@ -9,20 +9,60 @@
 </head>
 
 <body>
-  <div id="sliders">
-    <div class="slideContainer">
-      <label for="pixelSizeSlider" id="pixelSizeLabel"></label>
-      <input type="range" min="1" max="50" value="5" class="slider" id="pixelSizeSlider">
+  <div id="menu">
+    <div class="sub-menu">
+      <label for="seed-input" id="pixel-label">Seed</label>
+      <input type="text" id="seed-input" placeholder="Enter a seed...">
+    </div>
+
+    <hr>
+
+    <div class="sub-menu">
+      <label for="pixel-size-slider">Pixel size</label>
+      <div class="slider-menu">
+        <input type="range" min="1" max="50" value="5" class="slider-input" id="pixel-size-slider">
+        <label for="pixel-size-slider" id="pixel-size-value-label" class="slider-label"></label>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="sub-menu">
+      <label for="noise-zoom-slider">Perlin noise zoom</label>
+      <div class="slider-menu">
+        <input type="range" min="0.001" max="0.100" step="0.001" value="0.015" class="slider-input"
+          id="noise-zoom-slider">
+        <label for="noise-zoom-slider" id="noise-zoom-value-label" class="slider-label"></label>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="sub-menu">
+      <label for="noise-octaves-slider">Number of octaves</label>
+      <div class="slider-menu">
+        <input type="range" min="1" max="20" step="1" value="4" class="slider-input" id="noise-octaves-slider">
+        <label for="noise-octaves-slider" id="noise-octaves-value-label" class="slider-label"></label>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="sub-menu">
+      <label for="noise-falloff-slider">Octaves falloff factor</label>
+      <div class="slider-menu">
+        <input type="range" min="0.0" max="0.5" step="0.01" value="0.5" class="slider-input" id="noise-falloff-slider">
+        <label for="noise-falloff-slider" id="noise-falloff-value-label" class="slider-label"></label>
+      </div>
     </div>
   </div>
+
+  <img id="loading" src="./loading.gif">
 
   <main>
   </main>
 
-  <img src="https://media3.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif"
-    style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -90%); height: 250px;">
-
-  <script src="lib/p5.js"></script>
+  <script src="../lib/p5.js"></script>
   <script src="sketch.js"></script>
 </body>
 
