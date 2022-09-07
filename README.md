@@ -1,4 +1,4 @@
-# p5.js-Projects
+# Creative coding projects
  A list of my p5.js Projects :
 
 - Perlin Map Visualize
