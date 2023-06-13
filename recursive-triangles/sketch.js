@@ -106,8 +106,8 @@ mouseWheel = (event) => {
 
 touchStarted = (event) => {
 	if (event.touches != null) {
+		zooming = (fract >= 7 || fract <= 1) ? !zooming : zooming;
 		fract = (event.touches.length == 2 && zooming) ? fract + 1 :
 			(event.touches.length == 2 && !zooming) ? fract - 1 : fract;
-		zooming = (fract == 7 || fract == 1) ? !zooming : zooming;
 	}
 };
