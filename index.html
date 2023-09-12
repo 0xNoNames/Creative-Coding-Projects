@@ -4,40 +4,83 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArthurDev - Creative Coding</title>
+    <title>Creative Coding</title>
     <style>
         body {
             height: 100vh;
             width: 100vw;
-            padding: 0;
+            padding: 25px;
             margin: 0;
             box-sizing: border-box;
-            background-color: rgb(50, 50, 50);
+            background-color: rgb(20, 20, 20);
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
+            flex-wrap: wrap;
             align-items: center;
         }
 
         button {
+            margin: 25px;
             padding: 25px;
             font-size: xx-large;
             border-radius: 10px;
             outline: none;
             border: none;
             cursor: pointer;
+            overflow: hidden;
+            z-index: 1;
         }
 
         button:hover {
-            background-color: black;
             color: white;
+            background: linear-gradient(45deg,
+                    rgba(255, 0, 0, 1) 0%,
+                    rgba(255, 0, 0, 1) 9.9%,
+                    rgba(255, 154, 0, 1) 10%,
+                    rgba(255, 154, 0, 1) 19.9%,
+                    rgba(208, 222, 33, 1) 20%,
+                    rgba(208, 222, 33, 1) 29.9%,
+                    rgba(79, 220, 74, 1) 30%,
+                    rgba(79, 220, 74, 1) 39.9%,
+                    rgba(63, 218, 216, 1) 40%,
+                    rgba(63, 218, 216, 1) 49.9%,
+                    rgba(47, 201, 226, 1) 50%,
+                    rgba(47, 201, 226, 1) 59.9%,
+                    rgba(28, 127, 238, 1) 60%,
+                    rgba(28, 127, 238, 1) 69.9%,
+                    rgba(95, 21, 242, 1) 70%,
+                    rgba(95, 21, 242, 1) 79.9%,
+                    rgba(186, 12, 248, 1) 80%,
+                    rgba(186, 12, 248, 1) 89.9%,
+                    rgba(251, 7, 217, 1) 90%,
+                    rgba(251, 7, 217, 1) 100%);
+            background-size: 400% 400%;
+            animation: move 4s ease-in-out infinite;
+        }
+
+        @keyframes move {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
         }
     </style>
 </head>
 
 <body>
     <button onclick="location.href='solar-system/'">Solar system</button>
-    <button onclick="location.href='perlin-map-visualizer/'">Perlin map</button>    
+    <button onclick="location.href='perlin-map-visualizer/'">Perlin map</button>
     <button onclick="location.href='recursive-triangles/'">Recursive triangles</button>
+    <button onclick="location.href='rain/'">Rain</button>
+
+    <script></script>
 </body>
 
 </html>
