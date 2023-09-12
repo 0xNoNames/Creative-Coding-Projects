@@ -3,7 +3,7 @@ let gui = new dat.GUI();
 let variables = {
 	depth: 10,
 	distantOpacity: 100,
-	maxAngle: (window.innerWidth / 25),
+	maxAngle: window.innerWidth > 2000 ? 40 : window.innerWidth * 0.02,
 	volume: 0.5,
 	numRaindrops: window.innerWidth,
 	speed: 1
@@ -96,7 +96,7 @@ draw = () => {
 
 windowResized = () => {
 	resizeCanvas(windowWidth, windowHeight);
-	variables.maxAngle = (width / 25);
+	variables.maxAngle = map(width, 0, 2000, 0, 40);
 	variables.numRaindrops = width;
 };
 
