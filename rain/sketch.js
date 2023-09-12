@@ -3,7 +3,7 @@ var gui = new dat.GUI({ load: getPresetJSON() });
 // gui.useLocalStorage = true;
 
 let variables = {
-	depth: 10,
+	depth: 7,
 	opacity: 100,
 	maxAngle: window.innerWidth > 2000 ? 40 : window.innerWidth * 0.02,
 	volume: 0.5,
@@ -39,7 +39,7 @@ let maxSpeedListener = speedFolder.add(variables, "maxSpeed", 0, 120);
 
 let distantFolder = gui.addFolder("Distant drops");
 let opacityListener = distantFolder.add(variables, "opacity", 0, 255);
-distantFolder.add(variables, "depth", 0, 15);
+let depthListener = distantFolder.add(variables, "depth", 0.01, 15);
 
 let colorsFolder = gui.addFolder("Colors");
 colorsFolder.addColor(palette, "background");
@@ -148,6 +148,18 @@ opacityListener.onChange(() => {
 	raindrops.forEach(drop => { drop.opacity = map(drop.z, 1, drop.maxDepth, variables.opacity, 255); });
 });
 
+depthListener.onChange(() => {
+	raindrops.forEach(drop => {
+		drop.maxDepth = exp(variables.depth);
+		drop.z = exp(random(0, variables.depth));
+		drop.lenght = map(drop.z, 1, drop.maxDepth, variables.minLenght, variables.maxLenght);
+		drop.width = map(drop.z, 1, drop.maxDepth, variables.minWidth, variables.maxWidth);
+		drop.speed = map(drop.z, 1, drop.maxDepth, variables.minSpeed, variables.maxSpeed);
+		drop.opacity = map(drop.z, 1, drop.maxDepth, variables.opacity, 255);
+	});
+});
+
+
 
 windowResized = () => {
 	resizeCanvas(windowWidth, windowHeight);
@@ -176,7 +188,7 @@ function getPresetJSON() {
 		"remembered": {
 			"Default": {
 				"0": {
-					"depth": 10,
+					"depth": 7,
 					"opacity": 100,
 					"maxAngle": window.innerWidth > 2000 ? 40 : window.innerWidth * 0.02,
 					"volume": 0.5,
