@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triangles</title>
+  <title>Rain</title>
   <style>
     body {
       padding: 0;
@@ -12,14 +12,37 @@
       background-color: #1b1b1b;
       overflow: hidden;
     }
+
+    #message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: large;
+      opacity: 50%;
+      padding: 25px;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      text-align: center;
+    }
   </style>
-  <script src="../lib/p5.min.js"></script>
-  <script src="sketch.js"></script>
 </head>
 
 <body>
+  <div id="message">Click anywhere to start the rain sound</div>
   <main>
   </main>
+  <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
+  <script src="../lib/p5.min.js"></script>
+  <script src="../lib/p5.sound.min.js"></script>
+  <script src="sketch.js"></script>
+  <script>
+    document.body.addEventListener("click", () => {
+      document.getElementById("message").style.display = "none";
+    }, true); 
+  </script>
 </body>
 
 </html>

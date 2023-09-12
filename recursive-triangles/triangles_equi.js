@@ -30,5 +30,4 @@ draw = () => {
     generateTriangle(c.clone(), b.clone(), triangleSize, 1, 3);
     stroke(0, 0, 255);
     generateTriangle(a.clone(), c.clone(), triangleSize, 2, 3);
-
 }; 
