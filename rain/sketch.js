@@ -1,4 +1,6 @@
-let gui = new dat.GUI();
+var gui = new dat.GUI({ load: getPresetJSON() });
+
+// gui.useLocalStorage = true;
 
 let variables = {
 	depth: 10,
@@ -20,26 +22,33 @@ let palette = {
 	rain: [82, 104, 191],
 };
 
-let lenghtFolder = gui.addFolder("Drop lenght");
-let widthFolder = gui.addFolder("Drop width");
-let speedFolder = gui.addFolder("Drop speed");
-let distantFolder = gui.addFolder("Distant drops");
-let colorsFolder = gui.addFolder("Colors");
+gui.remember(variables);
+gui.remember(palette);
 
+let lenghtFolder = gui.addFolder("Drop lenght");
+let minLenghtListener = lenghtFolder.add(variables, "minLenght", 0, 50);
+let maxLenghtListener = lenghtFolder.add(variables, "maxLenght", 0, 500);
+
+let widthFolder = gui.addFolder("Drop width");
+let minWidthListener = widthFolder.add(variables, "minWidth", 0, 10);
+let maxWidthListener = widthFolder.add(variables, "maxWidth", 0, 60);
+
+let speedFolder = gui.addFolder("Drop speed");
+let minSpeedListener = speedFolder.add(variables, "minSpeed", 0, 20);
+let maxSpeedListener = speedFolder.add(variables, "maxSpeed", 0, 120);
+
+let distantFolder = gui.addFolder("Distant drops");
+let opacityListener = distantFolder.add(variables, "opacity", 0, 255);
 distantFolder.add(variables, "depth", 0, 15);
-distantFolder.add(variables, "opacity", 0, 255);
-lenghtFolder.add(variables, "minLenght", 0, 50);
-lenghtFolder.add(variables, "maxLenght", 0, 500);
-widthFolder.add(variables, "minWidth", 0, 10);
-widthFolder.add(variables, "maxWidth", 0, 60);
-speedFolder.add(variables, "minSpeed", 0, 20);
-speedFolder.add(variables, "maxSpeed", 0, 120);
+
+let colorsFolder = gui.addFolder("Colors");
+colorsFolder.addColor(palette, "background");
+colorsFolder.addColor(palette, "rain");
+
 gui.add(variables, "maxAngle", 0, 90).listen();
 gui.add(variables, "numDrops", 0, 5000).listen();
 gui.add(variables, "volume", 0, 1);
-gui.add(variables, "slowMotion", 0, 1);
-colorsFolder.addColor(palette, "background");
-colorsFolder.addColor(palette, "rain");
+gui.add(variables, "slowMotion", 0, 2);
 
 raindrops = [];
 
@@ -50,14 +59,14 @@ class Raindrop {
 	}
 
 	initialize = () => {
-		let maxDepth = exp(variables.depth);
+		this.maxDepth = exp(variables.depth);
 		this.x = random(-width / 4, width * 1.25);
 		this.y = random(-height);
 		this.z = exp(random(0, variables.depth));
-		this.lenght = map(this.z, 1, maxDepth, variables.minLenght, variables.maxLenght);
-		this.width = map(this.z, 1, maxDepth, variables.minWidth, variables.maxWidth);
-		this.speed = map(this.z, 1, maxDepth, variables.minSpeed, variables.maxSpeed);
-		this.opacity = map(this.z, 1, maxDepth, variables.opacity, 255);
+		this.lenght = map(this.z, 1, this.maxDepth, variables.minLenght, variables.maxLenght);
+		this.width = map(this.z, 1, this.maxDepth, variables.minWidth, variables.maxWidth);
+		this.speed = map(this.z, 1, this.maxDepth, variables.minSpeed, variables.maxSpeed);
+		this.opacity = map(this.z, 1, this.maxDepth, variables.opacity, 255);
 	};
 
 	show = (angle) => {
@@ -90,7 +99,13 @@ setup = () => {
 
 
 draw = () => {
-	background(palette.background); // midnight
+	background(palette.background);
+
+	while (raindrops.length < variables.numDrops)
+		raindrops.push(new Raindrop());
+
+	while (raindrops.length > variables.numDrops)
+		raindrops.pop();
 
 	angle = map(noise(time), 0, 1, -variables.maxAngle, variables.maxAngle);
 
@@ -101,23 +116,45 @@ draw = () => {
 
 	time += 0.002 * (1.5 * variables.slowMotion);
 
-	while (raindrops.length < variables.numDrops)
-		raindrops.push(new Raindrop());
-
-	while (raindrops.length > variables.numDrops)
-		raindrops.pop();
-
 	rainSound.rate(variables.slowMotion);
 	rainSound.setVolume(variables.volume);
 };
+
+minLenghtListener.onChange(() => {
+	raindrops.forEach(drop => { drop.lenght = map(drop.z, 1, drop.maxDepth, variables.minLenght, variables.maxLenght); });
+});
+
+maxLenghtListener.onChange(() => {
+	raindrops.forEach(drop => { drop.lenght = map(drop.z, 1, drop.maxDepth, variables.minLenght, variables.maxLenght); });
+});
+
+maxWidthListener.onChange(() => {
+	raindrops.forEach(drop => { drop.width = map(drop.z, 1, drop.maxDepth, variables.minWidth, variables.maxWidth); });
+});
+
+minWidthListener.onChange(() => {
+	raindrops.forEach(drop => { drop.width = map(drop.z, 1, drop.maxDepth, variables.minWidth, variables.maxWidth); });
+});
+
+minSpeedListener.onChange(() => {
+	raindrops.forEach(drop => { drop.speed = map(drop.z, 1, drop.maxDepth, variables.minSpeed, variables.maxSpeed); });
+});
+
+maxSpeedListener.onChange(() => {
+	raindrops.forEach(drop => { drop.speed = map(drop.z, 1, drop.maxDepth, variables.minSpeed, variables.maxSpeed); });
+});
+
+opacityListener.onChange(() => {
+	raindrops.forEach(drop => { drop.opacity = map(drop.z, 1, drop.maxDepth, variables.opacity, 255); });
+});
 
 
 windowResized = () => {
 	resizeCanvas(windowWidth, windowHeight);
 	variables.maxAngle = map(width, 0, 2000, 0, 40);
 	variables.numDrops = width;
+	console.log(maxLenghtListener.getValue());
 };
-
 
 mousePressed = () => {
 	rainSound.loop();
@@ -129,4 +166,34 @@ keyPressed = () => {
 
 touchStarted = () => {
 	rainSound.loop();
+};
+
+
+function getPresetJSON() {
+	return {
+		"preset": "Default",
+		"closed": false,
+		"remembered": {
+			"Default": {
+				"0": {
+					"depth": 10,
+					"opacity": 100,
+					"maxAngle": window.innerWidth > 2000 ? 40 : window.innerWidth * 0.02,
+					"volume": 0.5,
+					"numDrops": window.innerWidth,
+					"slowMotion": 1,
+					"minLenght": 3,
+					"maxLenght": 100,
+					"minWidth": 1,
+					"maxWidth": 20,
+					"minSpeed": 3,
+					"maxSpeed": 60
+				},
+				"1": {
+					"background": [13, 13, 20],
+					"rain": [82, 104, 191]
+				}
+			},
+		},
+	};
 };
